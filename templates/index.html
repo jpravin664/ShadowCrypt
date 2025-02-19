@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowCrypt - Hide Files in Images</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom Gradient Background with Animation */
+        body {
+    background: linear-gradient(-45deg, #152150, #184b5a, #3e3c68, #2b254e);
+    background-size: 400% 400%;
+    animation: gradientBG 5s ease infinite;
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Active Tab Style */
+        .tab-active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* Hover Effect for Tabs */
+        .tab-hover:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Button Hover Effect */
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Input Field Styles */
+        input[type="file"], input[type="password"] {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover, input[type="password"]:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        input[type="file"]:focus, input[type="password"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Custom Checkbox */
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '✔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .glass {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start p-6 relative bg-gray-900"> 
+    <header class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-6 px-12 mb-8 shadow-lg rounded-b-lg">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-bold">ShadowCrypt <i class="fa-sharp-duotone fa-solid fa-shield-halved"></i></h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#contact" class="text-lg hover:text-gray-200 transition">GitHub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<br><br>
+    <div class="w-full max-w-6xl glass p-8 rounded-lg shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Left Column: Information -->
+        <div class="w-full">
+            <h1 class="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">ShadowCrypt <i class="fa-sharp-duotone fa-solid fa-shield-halved"></i></h1>
+        
+            <div class="mb-8">
+                <p class="text-gray-300 text-center text-lg">Secure File Hiding in Images</p>
+                <p class="text-gray-300 text-center text-base mb-6">Hide your sensitive files within images using advanced steganography and AES-256 encryption. Completely undetectable, totally secure.</p>
+            
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">Advanced Steganography: Hide files seamlessly within images without altering their appearance.</p>
+                    </div>
+            
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">Military-Grade Encryption: Protect your files with AES-256 encryption, the gold standard in security.</p>
+                    </div>
+            
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">Stealth Mode: Add an extra layer of security by using a decoy image to mislead potential intruders.</p>
+                    </div>
+            
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">Cross-Platform Compatibility: Works seamlessly on all major operating systems and devices.</p>
+                    </div>
+            
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">User-Friendly Interface: Simple and intuitive design for both beginners and advanced users.</p>
+                    </div>
+            
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-300 text-base">Open Source: Transparent and trustworthy, with the code available on GitHub for review and contributions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Hide/Decrypt Forms -->
+        <div class="w-full">
+            <div class="mb-8 flex space-x-6 justify-center">
+                <button id="hideTab" class="tab-active py-3 px-8 rounded-lg font-semibold text-lg transition duration-300 tab-hover">Hide File</button>
+                <button id="decryptTab" class="py-3 px-8 rounded-lg font-semibold text-lg transition duration-300 tab-hover">Decrypt File</button>
+            </div>
+        
+            <div id="hideFormContainer">
+                <form id="hideForm" action="/hide" method="post" enctype="multipart/form-data" class="space-y-6">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-base">Cover Image</label>
+                        <input type="file" name="image" required class="w-full text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-base">File to Hide</label>
+                        <input type="file" name="file" required class="w-full text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-base">Password</label>
+                        <input type="password" name="password" required class="w-full text-lg">
+                    </div>
+        
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="stealth_mode" id="stealth_mode" class="custom-checkbox">
+                        <label for="stealth_mode" class="text-gray-300 text-base">Enable Stealth Mode</label>
+                        <div class="tooltip">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="tooltip-text text-base">Use a decoy image to mislead intruders.</span>
+                        </div>
+                    </div>
+        
+                    <div id="decoy_image_upload" style="display: none;">
+                        <label class="block text-gray-300 mb-2 text-base">Decoy Image</label>
+                        <input type="file" name="decoy_image" class="w-full text-lg">
+                    </div>
+        
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-lg text-lg button-hover transition duration-300 flex items-center justify-center">
+                        <span id="hideButtonText">Hide File</span>
+                        <div id="hideSpinner" class="loading-spinner ml-2 hidden"></div>
+                    </button>
+                </form>
+            </div>
+        
+            <div id="decryptFormContainer" class="hidden">
+                <form id="decryptForm" action="/extract" method="post" enctype="multipart/form-data" class="space-y-6">
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-base">Encrypted Image</label>
+                        <input type="file" name="image" required class="w-full text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-2 text-base">Password</label>
+                        <input type="password" name="password" required class="w-full text-lg">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-lg text-lg button-hover transition duration-300 flex items-center justify-center">
+                        <span id="decryptButtonText">Decrypt File</span>
+                        <div id="decryptSpinner" class="loading-spinner ml-2 hidden"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const hideTab = document.getElementById('hideTab');
+        const decryptTab = document.getElementById('decryptTab');
+        const hideFormContainer = document.getElementById('hideFormContainer');
+        const decryptFormContainer = document.getElementById('decryptFormContainer');
+
+        hideTab.addEventListener('click', () => {
+            hideFormContainer.classList.remove('hidden');
+            decryptFormContainer.classList.add('hidden');
+            hideTab.classList.add('tab-active');
+            decryptTab.classList.remove('tab-active');
+        });
+
+        decryptTab.addEventListener('click', () => {
+            decryptFormContainer.classList.remove('hidden');
+            hideFormContainer.classList.add('hidden');
+            decryptTab.classList.add('tab-active');
+            hideTab.classList.remove('tab-active');
+        });
+
+        // Toggle the visibility of the Decoy Image input based on Stealth Mode checkbox
+        document.getElementById("stealth_mode").addEventListener("change", function() {
+            document.getElementById("decoy_image_upload").style.display = this.checked ? "block" : "none";
+        });
+
+        // Show loading spinner on form submission
+        document.getElementById("hideForm").addEventListener("submit", function() {
+            document.getElementById("hideButtonText").classList.add("hidden");
+            document.getElementById("hideSpinner").classList.remove("hidden");
+        });
+
+        document.getElementById("decryptForm").addEventListener("submit", function() {
+            document.getElementById("decryptButtonText").classList.add("hidden");
+            document.getElementById("decryptSpinner").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>

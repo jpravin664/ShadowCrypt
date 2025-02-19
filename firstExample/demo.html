@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowCrypt - Hide Files in Images</title>
+    <link rel="stylesheet" href="Demostyle.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1 class="title">ShadowCrypt</h1>
+        <p class="subtitle">Steganography Encryption Tool</p>
+        
+        <div class="container">
+            <h2>Hide File in Image</h2>
+            <form id="hideForm" action="/hide" method="post" enctype="multipart/form-data">
+                <label class="file-label">Select Image</label>
+                <input type="file" name="image" class="file-input" required>
+                
+                <label class="file-label">Select File</label>
+                <input type="file" name="file" class="file-input" required>
+                
+                <label class="file-label">Enter Password</label>
+                <input type="password" name="password" class="password-input" required>
+                
+                <button type="submit" class="neon-button">Hide File</button>
+            </form>
+        </div>
+        
+        <div class="container">
+            <h2>Extract File from Image</h2>
+            <form id="extractForm" action="/extract" method="post" enctype="multipart/form-data">
+                <label class="file-label">Select Encrypted Image</label>
+                <input type="file" name="image" class="file-input" required>
+                
+                <label class="file-label">Enter Password</label>
+                <input type="password" name="password" class="password-input" required>
+                
+                <button type="submit" class="neon-button">Extract File</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
