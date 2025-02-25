@@ -58,7 +58,7 @@ cd ShadowCrypt
 - Mobile app integration.  
 
 ## 🎓 Contributors  
-- [Pravin](https://github.com/jpravin664)( myself)
+- [Pravin](https://github.com/jpravin664) (myself)
 - [Pranav](https://github.com/OGpranav17)  
 - [Praveen](https://github.com/PRAVEENM16)  
 
